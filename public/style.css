@@ -1,0 +1,157 @@
+@charset "utf-8";
+html {
+    background: white !important;
+}
+
+header, section, footer, aside, nav, main, article, figure {
+    display: block; 
+}
+
+
+div, header, nav, article, section, aside, footer, h1, h2, h3, h4, h5, h6, p, a, ul, li, figure, figcaption, class, img { 
+	margin: 0;
+	padding: 0;
+}
+*{
+    box-sizing: border-box;
+}
+html, body {
+	height: 100%;
+	border: 0 solid transparent;
+	font-size: 16px;
+	margin: 0;
+	min-height: 100%;
+	padding: 0;
+	width: 100%;
+	display: block;
+	font-family: 'Roboto', sans-serif;
+}
+
+img, object, embed, canvas, video, audio, picture, svg {
+	max-width: 100%;
+	height: auto;
+}
+img {
+    display: block;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+
+
+/* ------------------------------- END RECURENTES -- */
+
+
+.list-group-item {
+  border-top: 1px solid #eee !important;
+  margin-bottom: 5px;
+  padding: 8px;
+}
+
+.yellow-nav {
+  background-color: #ffd700 !important;
+  padding: 7px;
+}
+.nav-link {
+  font-size: 16px !important;
+  color: #143556 !important;
+  font-weight: 500 !important;
+}
+.dropdown-item {
+  color: black !important;
+}
+.dropdown-item:hover {
+  color: gray !important;
+}
+
+body {
+  background-color: #ffffff !important;
+}
+
+.logo-visions {
+  width: 60px;
+  height: 40px;
+}
+.bg{
+background-color: black;
+position: absolute;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+opacity: 0.5;
+z-index: 8000 !important;
+}
+
+.pop{
+width: 500px;
+height: 250px;
+position: absolute;
+z-index: 9999999 !important;
+background-color: #fff;
+top: 40%;
+left: 50%;
+transform: translate(-50%, -50%);
+border-radius: 20px;
+}
+.pop .contener-image {
+width: 200px;
+height: 200px;
+position: relative;
+top: -100px;
+left: 50%;
+transform: translate(-50%);
+background-color: #fff;
+border-radius: 50%;
+overflow: hidden;
+
+}
+.pop .contener-image img {
+
+width: 200px;
+height: 200px;
+}
+
+.pop .text p {
+margin-top: -84px;
+width: 100%;
+text-align: center;
+}
+.pop .text p:nth-child(2) {
+margin-top: 0px;
+width: 100%;
+text-align: center;
+}
+.pop .text a   {
+padding: 5px 60px;
+position: relative;
+right: -160px;
+top: 25px;
+background-color: #123657 !important;
+}
+
+
+
+
+
+
+/* ------------------------ MEDIA QUERIES 960px ---- */
+
+@media screen and (max-width: 960px) {
+    .center {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+
+
+@media (min-width: 576px) {
+    .modal-dialog-xlg {
+        max-width: 90%;
+        margin: 1.75rem auto;
+    }
+}
+
+

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!--mettre dans chaque page un hidden avec id=userID / serviceName=serviceName / purpose=purpose-->
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css">
+    <%- include('sections/head')%>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-127050654-1"></script>
+
+
+</head>
+
+<body>
+    <%- include('sections/navbar') %>
+    <div class="container mt-4" style="min-height: 75vh;">
+
+        <div class="row-cols-1 mx-auto">
+            <div class="text-center mt-1">
+                <div class="alert" id="message"></div>
+                <h2 class="h1 my-4">Purposes du service</h2>
+                <% console.log(serviceName)%>
+                <% console.log(serviceId) %>
+                <% if (typeof serviceName != undefined) {%>
+
+                    <input type="hidden" name="<%= serviceName %>" id="serviceName">
+                <% }; %>
+                <% if (typeof serviceId != undefined) {%>
+                    <input type="hidden" name="<%= serviceId %>" id="serviceId">
+                <% }; %>
+            </div>
+            <div>
+                <p>Vous visualisez la page depuis le faux compte administrateur du service LinkedIn.</p>
+                <p>La page traitements sert au service à configurer les types de données [datatypes] qu'il souhaite ajouter à un traitement [purpose].</p>
+                <br/>
+                <p>Un purpose est une utilisation des données. Par exemple, en tant que LinkedIn je peux vouloir utiliser des datatypes comme le <b>nom</b>, <b>prénom</b> et <b>email</b> d'une personne pour un purpose <b>Compléter mon profil</b>.</p>
+                <br/>
+
+                <p>Essentiellement il faut que cette page liste les purposes du service et pour chaque purpose, avoir la possibilité de visualiser quels datatypes appartenant au service sont ajoutés au purpose et quels datatypes ne le sont pas</p>
+                <p>Le code frontend de cette page est déjà écrit, "Views/purposes.ejs" à vous de retrouver la route correspondante et d'ajuster le back end pour que l'affichage fonctionne correctement.</p>
+            </div>
+        </div>
+
+
+        <% if (datauses.length != 0 ) {%>
+            <div class="row" id="purposeList">
+                <div id="bg" class="bg"></div>
+                <div id="Pop" class="pop">
+                    <div class="contener-image">
+                        <img src="/imgs/badge.png" alt="">
+                    </div>
+                    <div class="text">
+                  
+                        <p>Bravo vous avez réussi la première étape !!</p>
+                        <p>Voici un magnifique badge en cadeau !</p>
+                        <a id="acc" href="#!" class=" btn btn-primary">Merci !</a>
+                    </div>
+                    </div>
+                <% datauses.forEach((datause,index) => { %>
+                <div class="col-md-4" >
+                    <div class="card mb-3" >
+                        <div class="card-header h6 bg-warning text-white font-weight-bold"><%= datause.purpose.name %></div>
+                        <div class="card-body">
+                            <p><%= datause.purpose.description %></p>
+                            <div>
+                                <div>
+                                    <button type="button" data-id="<%= datause.purpose.id %>" class="btn btn-light show-datatypes">
+                                        <i class="fas fa-list mr-3 text-success"></i>
+                                        Les données
+                                    </button>
+                                    <button type="button" data-id="<%= datause.purpose.id %> "
+                                        class="btn btn-light">
+                                        <i class="far fa-trash-alt text-danger"></i>
+                                    </button>
+                                    <button type="button" data-id="<%= datause.purpose.id %> "
+                                        data-name="<%= datause.purpose.name %> "
+                                        data-description="<%= datause.purpose.description %> "
+                                        class="edit-purpose btn btn-light ">
+                                        <i class="fas fa-edit text-success"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center p-3 bg-dark text-white">
+        <p class="footer datause_footer">© Copyright 2020 Visions</p>
+    </div>
+
+
+    <!-- Datatypes modal -->
+
+    <% if (typeof datauses != undefined) {%>
+        <% datauses.forEach((datause,index) => { %>
+        <div class="modal " tabindex="-1" role="dialog" id="datatypesModal<%=datause.purpose.id %>">
+            <div class="modal-dialog modal-dialog-xlg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title">Les données disponibles pour <%=datause.purpose.name %></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8 col-12">
+                                <% if (datause.selectedDatatypes.length == 0 && datause.unselectedDatatypes.length == 0) { %>
+                                    <h4 class="text-secondary text-center">Aucune donnée de votre service dans ce traitement</h4>
+                                <% } else { %>
+                                    <h4 class="text-secondary text-center">Données de votre service</h4>
+                                <% } %>
+                                <div class="row">
+
+                                <% datause.selectedDatatypes.forEach(datatype => { %>
+                                    <% var key = Math.random().toString(36).substring(7) %>
+                                    <div class="col-md-5 list-group-item mx-2" >
+                                        <div class="checkbox icheck-primary">
+                                            <input type="checkbox"  checked  id="check<%= key %>"   />
+                                            <label onclick="updatePurpose('owned','<%=datause.purpose.id%>','<%= datatype._id %>')" for="check<%= key%>"><%= datatype.name %></label>
+                                        </div>
+
+                                    </div>
+                                <% }) %>
+
+                                <% datause.unselectedDatatypes.forEach(unselectedDatatype => { %>
+                                    <% var key = Math.random().toString(36).substring(7) %>
+                                    <div class="col-md-5 list-group-item mx-2" >
+                                        <div class="checkbox icheck-primary">
+                                            <input type="checkbox"   id="uncheck<%= key %>"   />
+                                            <label onclick="updatePurpose('owned','<%=datause.purpose.id%>','<%= unselectedDatatype._id %>')" for="uncheck<%= key%>"><%= unselectedDatatype.name %></label>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">
+                            <i class="fas fa-times mr-2 text-danger"></i>Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    <% }; %>
+    <script src="/js/front.js"></script>
+    <script type="text/javascript">
+      function updatePurpose(owned,purposeID,dataTypeID){
+         const body={
+            //  service: document.getElementById('serviceId').name, Pas utile, un middleware dans le fichier app.js s'en occupe
+             purpose: purposeID,
+             datatype: dataTypeID
+         }
+        let options = {
+            method: "PUT",
+            headers:{
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(body)
+        }
+        fetch('http://localhost:8626/dataview/datatypes',options)
+       }
+       var edit=false;
+       var selectedPurpose=null;
+       var purposeForGlobal=null;
+
+        $("#message").hide()
+
+        $("#purposeList").on("click", ".show-datatypes", function () {
+            let id = $(this).data("id");
+            $("#datatypesModal"+id).modal({ show: true });
+        });
+
+        $("#createPurposeModal").on("click", ".cancel-action", function () {
+            edit =false
+            selectedPurpose=null
+        });
+
+
+        $("#purposeList").on("click", ".edit-purpose", function () {
+            let id = $(this).data("id");
+            edit=true
+            selectedPurpose=id
+            let name=$(this).data("name");
+            let description=$(this).data("description");
+
+            $("#purposeName").val(name);
+            $("#purposeDescription").val(description);
+
+            $("#edit-header").html("Editer le traitement : "+name)
+
+            $("#createPurposeModal").modal({ show: true });
+
+        });
+
+
+
+        $("#createPurposeModal").on("click", "#createPurpose", function () {
+
+            let name=$("#purposeName").val();
+            let description=$("#purposeDescription").val();
+
+            $("#purposeName").val('');
+            $("#purposeDescription").val('');
+
+            var serviceName = document.getElementById('serviceName').name
+            var purpose = new Object()
+            purpose.name = name
+            purpose.description = description
+            console.log(purpose,serviceName)
+            $("#message").removeClass("alert-success")
+            $("#message").removeClass("alert-danger")
+           if(edit){
+               updateDescription(purpose,serviceName,selectedPurpose)
+               selectedPurpose=null
+               edit =false
+
+           }else{
+             createPurpose(purpose,serviceName)
+           }
+
+
+        });
+    </script>
+</body>
+
+</html>
