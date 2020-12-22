@@ -28,16 +28,16 @@ exports.displayPurposes = async (req, res, next) => {
             }
         })
 
-        const datause = {
-            purpose: {
-                id: purposeId,
-                name: purpose.name,
-                description: purpose.description
-            },
-            selectedDatatypes: purposeDataType,
-            unselectedDatatypes: dataTypeFilter
-        }
-        tableau.push(datause)
+        // const datause = {
+        //     purpose: {
+        //         id: purposeId,
+        //         name: purpose.name,
+        //         description: purpose.description
+        //     },
+        //     selectedDatatypes: purposeDataType,
+        //     unselectedDatatypes: dataTypeFilter
+        // }
+        // tableau.push(datause)
     }
 
     try {
